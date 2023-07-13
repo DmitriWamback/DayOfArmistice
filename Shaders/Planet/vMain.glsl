@@ -8,8 +8,12 @@ out VERTEX {
     vec3 normal;
 } o;
 
+uniform mat4 projection;
+uniform mat4 lookAt;
+uniform mat4 model;
+
 void main() {
     o.normal = normal;
     o.fragp = fragp;
-    gl_Position = vec4(fragp, 1.0);
+    gl_Position = projection * lookAt * vec4(fragp, 1.0);
 }

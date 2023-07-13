@@ -1,6 +1,6 @@
 using OpenTK.Mathematics;
 
-namespace Atmosphere.Source.Util.Math {
+namespace Atmosphere.Source.Util.aMath {
 
     public class AtmUtilMath {
 
@@ -67,6 +67,7 @@ namespace Atmosphere.Source.Util.Math {
         }
 
 
+        // Only works if the vertices are rendered Counter-clockwise
         public static float[] RecalculateNormals(float[] vertices, int vertexArraySize, int vertexCompositionSize) {
             
             // VertexCompositionSize = number of elements making up a vertex
@@ -128,6 +129,44 @@ namespace Atmosphere.Source.Util.Math {
         public static void AddUVCoordsToVertexList(float[] vertices, int[] indices, float[] uvInRelationToIndices) {
 
 
+        }
+
+        public static Matrix4 EulerRotation(Vector3 rotation) {
+
+            float x = rotation.X;
+            float y = rotation.Y;
+            float z = rotation.Z;
+
+            Matrix4 xRotation = new Matrix4(
+                new Vector4(MathF.Cos(x), -MathF.Sin(x), 0, 0),
+                new Vector4(MathF.Sin(x),  MathF.Cos(x), 0, 0),
+                new Vector4(0,             0,            1, 0),
+                new Vector4(0,             0,            0, 1)
+            );
+            Matrix4 yRotation = new Matrix4(
+                new Vector4( MathF.Cos(y), 0, MathF.Sin(y), 0),
+                new Vector4( 0,            1, 0,            0),
+                new Vector4(-MathF.Sin(y), 0, MathF.Cos(y), 0),
+                new Vector4( 0,            0, 0,            1)
+            );
+            Matrix4 zRotation = new Matrix4(
+                new Vector4(1, 0,             0,            0),
+                new Vector4(0, MathF.Cos(z), -MathF.Sin(z), 0),
+                new Vector4(0, MathF.Sin(z),  MathF.Cos(z), 0),
+                new Vector4(0, 0,             0,            1)
+            );
+
+            return xRotation * yRotation * zRotation;
+        }
+
+        public static Vector3 PointToSphere(float latitude, float longitude) {
+
+            float y =  (float)Math.Sin(latitude * 3.14159265358797f / 180f);
+            float r =  (float)Math.Cos(latitude * 3.14159265358797f / 180f);
+            float x =  (float)Math.Sin(longitude * 3.14159265358797f / 180f) * r;
+            float z = -(float)Math.Cos(longitude * 3.14159265358797f / 180f) * r;
+
+            return new Vector3(z, y, x);
         }
     }
 }

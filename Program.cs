@@ -16,7 +16,6 @@ namespace Atmosphere {
                 Flags           = ContextFlags.ForwardCompatible,
                 Title           = "Atmosphere",
                 Size            = new Vector2i(1200, 800),
-                NumberOfSamples = 14
             };
 
             new Atmosphere(gameWindowSettings, nativeWindowSettings);

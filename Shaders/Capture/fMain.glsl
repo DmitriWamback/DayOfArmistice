@@ -1,11 +1,13 @@
 #version 410 core
 
+uniform sampler2D tex;
+
 in VERTEX {
     vec3 fragp;
-    vec3 normal;
+    vec2 uv;
 } i;
 out vec4 fragc;
 
 void main() {
-    fragc = vec4(i.normal, 1.0);
+    fragc = texture(tex, i.uv);
 }
